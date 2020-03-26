@@ -6,7 +6,7 @@ export const FormUtils = fu
 
 export default {
   TableComp: tc,
-  FormUtils: fu
+  FormUtils: fu,
 }
 
 

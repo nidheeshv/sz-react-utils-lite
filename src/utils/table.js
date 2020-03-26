@@ -1,6 +1,13 @@
 import React, { Component } from 'react'
 import { Button, DatePicker, Icon, Input, Table, Select } from 'antd'
-import _ from 'lodash'
+
+import isEqual from 'lodash/isEqual'
+import clone from 'lodash/clone'
+import each from 'lodash/each'
+import map from 'lodash/map'
+import find from 'lodash/find'
+import filter from 'lodash/filter'
+
 import memoizeOne from 'memoize-one'
 import S from 'string'
 
@@ -163,7 +170,7 @@ class TableMain extends Component {
             type="primary"
             onClick={() => {
 
-              let dateFilters = _.clone(this.state.dateFilters)
+              let dateFilters = clone(this.state.dateFilters)
 
               dateFilters[dataIndex] = true
 
@@ -181,7 +188,7 @@ class TableMain extends Component {
           </Button>
           <Button
             onClick={() => {
-              let dateFilters = _.clone(this.state.dateFilters)
+              let dateFilters = clone(this.state.dateFilters)
 
               dateFilters[dataIndex] = false
 
@@ -257,10 +264,10 @@ class TableMain extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    if (!_.isEqual(this.props.columns, prevProps.columns)) {
+    if (!isEqual(this.props.columns, prevProps.columns)) {
 
       let x = []
-      _.each(this.props.columns, i => {
+      eachh(this.props.columns, i => {
         if (i.searchTextName) {
           i = {...this.getColumnSearchProps(i.searchTextName), ...i}
         }
@@ -300,7 +307,7 @@ class TableMain extends Component {
     }
 
     let x = []
-    _.each(this.props.columns, (i) => {
+    eachh(this.props.columns, (i) => {
 
       if (i.searchTextName) {
         i = {...this.getColumnSearchProps(i.searchTextName), ...i}
@@ -343,11 +350,11 @@ class TableMain extends Component {
       onChange: this.onRowSelectChange,
     }
 
-    const columnsName = _.map(columns, x => ({key: x.key, title: x.title}))
+    const columnsName = map(columns, x => ({key: x.key, title: x.title}))
 
     let all = []
 
-    _.each(columns, x => {
+    eachh(columns, x => {
       all.push(x.key)
     })
 
@@ -356,7 +363,7 @@ class TableMain extends Component {
       all = JSON.parse(def)
     }
 
-    columns = _.filter(columns, (x) => {
+    columns = filter(columns, (x) => {
       return all.indexOf(x.key) !== -1
     })
 
