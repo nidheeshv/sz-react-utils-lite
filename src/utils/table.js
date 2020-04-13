@@ -5,7 +5,7 @@ import isEqual from 'lodash/isEqual'
 import clone from 'lodash/clone'
 import each from 'lodash/each'
 import map from 'lodash/map'
-import find from 'lodash/find'
+// import find from 'lodash/find'
 import filter from 'lodash/filter'
 
 import memoizeOne from 'memoize-one'
@@ -267,7 +267,7 @@ class TableMain extends Component {
     if (!isEqual(this.props.columns, prevProps.columns)) {
 
       let x = []
-      eachh(this.props.columns, i => {
+      each(this.props.columns, i => {
         if (i.searchTextName) {
           i = {...this.getColumnSearchProps(i.searchTextName), ...i}
         }
@@ -307,7 +307,7 @@ class TableMain extends Component {
     }
 
     let x = []
-    eachh(this.props.columns, (i) => {
+    each(this.props.columns, (i) => {
 
       if (i.searchTextName) {
         i = {...this.getColumnSearchProps(i.searchTextName), ...i}
@@ -354,7 +354,7 @@ class TableMain extends Component {
 
     let all = []
 
-    eachh(columns, x => {
+    each(columns, x => {
       all.push(x.key)
     })
 
