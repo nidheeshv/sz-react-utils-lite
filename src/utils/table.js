@@ -88,8 +88,8 @@ class TableMain extends Component {
           borderRadius: '4px',
           backgroundColor: '#ffffff',
           boxShadow: '0 2px 8px rgba(0, 0, 0, .15)',
-        }
-        }>
+          test: '100',
+        }}>
         <Input
           ref={node => {
             this.searchInput = node
@@ -154,11 +154,12 @@ class TableMain extends Component {
       return (<div
         className={`filter-${dataIndex}`}
         style={{
-        padding: '8px',
-        borderRadius: '4px',
-        backgroundColor: '#ffffff',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, .15)',
-      }}>
+          padding: '8px',
+          borderRadius: '4px',
+          backgroundColor: '#ffffff',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, .15)',
+          test: '100',
+        }}>
 
         <RangePicker
           className={'rangePicker'}
