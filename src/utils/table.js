@@ -151,7 +151,9 @@ class TableMain extends Component {
         clearFilters,
       } = pro
 
-      return (<div style={{
+      return (<div
+        id={dataIndex}
+        style={{
         padding: '8px',
         borderRadius: '4px',
         backgroundColor: '#ffffff',
@@ -159,6 +161,7 @@ class TableMain extends Component {
       }}>
 
         <RangePicker
+          className={'rangePicker'}
           style={{width: 250, marginBottom: 8, display: 'block'}}
           ref={node => {
             this.searchInput = node
@@ -173,16 +176,13 @@ class TableMain extends Component {
         <div style={{flex: 1, justifyContent: 'flex-end'}}>
           <Button
             type="primary"
+            className={'search'}
             onClick={() => {
-
               let dateFilters = clone(this.state.dateFilters)
-
               dateFilters[dataIndex] = true
-
               this.setState({
                 dateFilters,
               })
-
               confirm()
             }}
             icon="search"
@@ -192,11 +192,10 @@ class TableMain extends Component {
             Search
           </Button>
           <Button
+            className={'reset'}
             onClick={() => {
               let dateFilters = clone(this.state.dateFilters)
-
               dateFilters[dataIndex] = false
-
               this.setState({
                 dateFilters,
               })
