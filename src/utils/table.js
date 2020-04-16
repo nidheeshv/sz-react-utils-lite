@@ -81,17 +81,20 @@ class TableMain extends Component {
         clearFilters,
       } = pro
 
-      return (<div style={{
-        padding: '8px',
-        borderRadius: '4px',
-        backgroundColor: '#ffffff',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, .15)',
-      }
-      }>
+      return (<div
+        id={dataIndex}
+        style={{
+          padding: '8px',
+          borderRadius: '4px',
+          backgroundColor: '#ffffff',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, .15)',
+        }
+        }>
         <Input
           ref={node => {
             this.searchInput = node
           }}
+          className={'searchInput'}
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
           onChange={e => setSelectedKeys(
@@ -100,6 +103,7 @@ class TableMain extends Component {
           style={{width: 188, marginBottom: 8, display: 'block'}}
         />
         <Button
+          className={'search'}
           type="primary"
           onClick={() => this.handleSearch(selectedKeys, confirm)}
           icon="search"
@@ -109,6 +113,7 @@ class TableMain extends Component {
           Search
         </Button>
         <Button
+          className={'reset'}
           onClick={() => {
             this.handleReset(clearFilters)
           }}
