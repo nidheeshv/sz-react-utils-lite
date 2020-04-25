@@ -372,6 +372,22 @@ class TableMain extends Component {
       return all.indexOf(x.key) !== -1
     })
 
+    const tableLoading = {
+      spinning: this.state.loading,
+      indicator: <div className={'myspinner'}
+                      style={{ width: '300px', left: 'calc(50% - 150px)' }}>
+        <Spin size={'large'}/>
+        <p style={{
+          margin: 0,
+          padding: 0,
+          lineHeight: '20px',
+          marginTop: '15px'
+        }}>processing data</p>
+        <p style={{ fontSize: '14px' }}>please give us a second</p>
+      </div>
+    }
+
+
     return (
       <React.Fragment>
 
@@ -420,7 +436,7 @@ class TableMain extends Component {
             ...this.props.pagination,
           }}
           onChange={this.handleTableChange}
-          loading={this.state.loading}
+          loading={tableLoading}
         />
 
       </React.Fragment>
