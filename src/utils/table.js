@@ -82,6 +82,7 @@ class TableMain extends Component {
       } = pro
 
       return (<div
+        id={`filter-${dataIndex}`}
         className={`filter-${dataIndex}`}
         style={{
           padding: '8px',
