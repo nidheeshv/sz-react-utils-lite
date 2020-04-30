@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, DatePicker, Icon, Input, Table, Select , Spin } from 'antd'
+import { Button, DatePicker, Icon, Input, Table, Select, Spin } from 'antd'
 
 import isEqual from 'lodash/isEqual'
 import clone from 'lodash/clone'
@@ -11,9 +11,9 @@ import filter from 'lodash/filter'
 import memoizeOne from 'memoize-one'
 import S from 'string'
 
-const {Option} = Select
+const { Option } = Select
 
-const {MonthPicker, RangePicker, WeekPicker} = DatePicker
+const { MonthPicker, RangePicker, WeekPicker } = DatePicker
 
 class TableMain extends Component {
 
@@ -26,27 +26,27 @@ class TableMain extends Component {
     searchText: '',
     withoutLoader: false,
     dataSearchParams: {},
-    dateFilters: {},
+    dateFilters: {}
   }
 
   handleTableChange = (pagination, filters, sorter) => {
-    const pager = {...this.state.pagination}
+    const pager = { ...this.state.pagination }
     pager.current = pagination.current
     this.setState({
-      pagination: pager,
+      pagination: pager
     })
     this.fetch2({
       results: pagination.pageSize,
       page: pagination.current,
       sortField: sorter.field,
       sortOrder: sorter.order,
-      ...filters,
+      ...filters
     })
   }
 
   fetch = async (params = {}) => {
 
-    const {withoutLoader} = this.state
+    const { withoutLoader } = this.state
 
     let loading = true
     if (withoutLoader) {
@@ -55,19 +55,19 @@ class TableMain extends Component {
 
     this.setState({
       loading,
-      dataSearchParams: params,
+      dataSearchParams: params
     })
 
     params.count = params.results
 
-    let data = await this.props.apiRequest({...params})
+    let data = await this.props.apiRequest({ ...params })
 
-    let pagination = {...this.state.pagination}
+    let pagination = { ...this.state.pagination }
     pagination.total = data.total
     this.setState({
       loading: false,
       data: data.data,
-      pagination,
+      pagination
     })
 
   }
@@ -78,7 +78,7 @@ class TableMain extends Component {
         setSelectedKeys,
         selectedKeys,
         confirm,
-        clearFilters,
+        clearFilters
       } = pro
 
       return (<div
@@ -89,7 +89,7 @@ class TableMain extends Component {
           borderRadius: '4px',
           backgroundColor: '#ffffff',
           boxShadow: '0 2px 8px rgba(0, 0, 0, .15)',
-          test: '100',
+          test: '100'
         }}>
         <Input
           ref={node => {
@@ -101,7 +101,7 @@ class TableMain extends Component {
           onChange={e => setSelectedKeys(
             e.target.value ? [e.target.value] : [])}
           onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
-          style={{width: 188, marginBottom: 8, display: 'block'}}
+          style={{ width: 188, marginBottom: 8, display: 'block' }}
         />
         <Button
           className={'search'}
@@ -109,7 +109,7 @@ class TableMain extends Component {
           onClick={() => this.handleSearch(selectedKeys, confirm)}
           icon="search"
           size="small"
-          style={{width: 90, marginRight: 8}}
+          style={{ width: 90, marginRight: 8 }}
         >
           Search
         </Button>
@@ -119,17 +119,14 @@ class TableMain extends Component {
             this.handleReset(clearFilters)
           }}
           size="small"
-          style={{width: 90}}
+          style={{ width: 90 }}
         >
           Reset
         </Button>
       </div>)
     },
-    filterIcon: filtered => <Icon type="search" style={{
-      color: filtered
-             ? '#1890ff'
-             : undefined,
-    }}/>,
+    filterIcon: filtered => <Icon id={`searchIcon-${dataIndex}`}
+                                  type="search" style={{ color: filtered ? '#1890ff' : undefined }}/>,
     onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => this.searchInput.select())
@@ -139,7 +136,7 @@ class TableMain extends Component {
       return (
         <React.Fragment>{text}</React.Fragment>
       )
-    },
+    }
   })
 
   getColumnDateSearchProps = (dataIndex) => ({
@@ -149,7 +146,7 @@ class TableMain extends Component {
         setSelectedKeys,
         selectedKeys,
         confirm,
-        clearFilters,
+        clearFilters
       } = pro
 
       return (<div
@@ -159,23 +156,23 @@ class TableMain extends Component {
           borderRadius: '4px',
           backgroundColor: '#ffffff',
           boxShadow: '0 2px 8px rgba(0, 0, 0, .15)',
-          test: '100',
+          test: '100'
         }}>
 
         <RangePicker
           className={'rangePicker'}
-          style={{width: 250, marginBottom: 8, display: 'block'}}
+          style={{ width: 250, marginBottom: 8, display: 'block' }}
           ref={node => {
             this.searchInput = node
           }}
           onChange={(date) => {
             setSelectedKeys({
               $gte: date[0].startOf('day').toDate(),
-              $lt: date[1].endOf('day').toDate(),
+              $lt: date[1].endOf('day').toDate()
             })
           }}/>
 
-        <div style={{flex: 1, justifyContent: 'flex-end'}}>
+        <div style={{ flex: 1, justifyContent: 'flex-end' }}>
           <Button
             type="primary"
             className={'search'}
@@ -183,13 +180,13 @@ class TableMain extends Component {
               let dateFilters = clone(this.state.dateFilters)
               dateFilters[dataIndex] = true
               this.setState({
-                dateFilters,
+                dateFilters
               })
               confirm()
             }}
             icon="search"
             size="small"
-            style={{width: 90, marginRight: 8}}
+            style={{ width: 90, marginRight: 8 }}
           >
             Search
           </Button>
@@ -199,12 +196,12 @@ class TableMain extends Component {
               let dateFilters = clone(this.state.dateFilters)
               dateFilters[dataIndex] = false
               this.setState({
-                dateFilters,
+                dateFilters
               })
               clearFilters()
             }}
             size="small"
-            style={{width: 90}}
+            style={{ width: 90 }}
           >
             Reset
           </Button>
@@ -213,35 +210,35 @@ class TableMain extends Component {
       </div>)
     },
     filterIcon: x => {
-      let {dateFilters} = this.state
+      let { dateFilters } = this.state
       let filtered = dateFilters && dateFilters[dataIndex]
-      return <Icon type="search"
-                   style={{color: filtered ? '#1890ff' : undefined}}/>
+      return <Icon type="search" id={`searchIcon-${dataIndex}`}
+                   style={{ color: filtered ? '#1890ff' : undefined }}/>
     },
     onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => this.searchInput.focus())
       }
-    },
+    }
   })
 
   handleSearch = (selectedKeys, confirm) => {
     confirm()
-    this.setState({searchText: selectedKeys[0]})
+    this.setState({ searchText: selectedKeys[0] })
   }
 
   handleReset = (clearFilters) => {
     clearFilters()
-    this.setState({searchText: ''})
+    this.setState({ searchText: '' })
   }
 
   reload = (withoutLoader) => {
 
     this.setState({
-      withoutLoader: !!withoutLoader,
+      withoutLoader: !!withoutLoader
     })
 
-    let {apiRequest} = this.props
+    let { apiRequest } = this.props
     if (!!apiRequest) {
       this.fetch(this.state.dataSearchParams)
     }
@@ -257,9 +254,9 @@ class TableMain extends Component {
   }
 
   onRowSelectChange = (selectedRowKeys, selectedRows) => {
-    this.setState({selectedRowKeys, selectedRows}, () => {
-      const {checkBox} = this.props
-      checkBox({selectedRowKeys, selectedRows})
+    this.setState({ selectedRowKeys, selectedRows }, () => {
+      const { checkBox } = this.props
+      checkBox({ selectedRowKeys, selectedRows })
     })
   }
 
@@ -275,11 +272,21 @@ class TableMain extends Component {
       let x = []
       each(this.props.columns, i => {
         if (i.searchTextName) {
-          i = {...this.getColumnSearchProps(i.searchTextName), ...i}
+          i = { ...this.getColumnSearchProps(i.searchTextName), ...i }
         }
 
         if (i.searchDateName) {
-          i = {...this.getColumnDateSearchProps(i.searchDateName), ...i}
+          i = { ...this.getColumnDateSearchProps(i.searchDateName), ...i }
+        }
+
+        if (i.filters) {
+          console.log(i)
+          let x = {
+            filterIcon: filtered => <Icon id={`searchIcon-${i.dataIndex}`} type={'filter'}
+                                          style={{ color: filtered ? '#1890ff' : undefined }}/>
+          }
+
+          i = { ...x, ...i }
         }
 
         if (
@@ -295,8 +302,9 @@ class TableMain extends Component {
         }
         x.push(i)
       })
+
       this.setState({
-        columns: x,
+        columns: x
       })
 
     }
@@ -304,11 +312,11 @@ class TableMain extends Component {
 
   componentDidMount () {
 
-    let {pagination, apiRequest} = this.props
+    let { pagination, apiRequest } = this.props
 
     if (!pagination) {
       pagination = {
-        defaultPageSize: 10,
+        defaultPageSize: 10
       }
     }
 
@@ -316,11 +324,11 @@ class TableMain extends Component {
     each(this.props.columns, (i) => {
 
       if (i.searchTextName) {
-        i = {...this.getColumnSearchProps(i.searchTextName), ...i}
+        i = { ...this.getColumnSearchProps(i.searchTextName), ...i }
       }
 
       if (i.searchDateName) {
-        i = {...this.getColumnDateSearchProps(i.searchDateName), ...i}
+        i = { ...this.getColumnDateSearchProps(i.searchDateName), ...i }
       }
 
       if (i.dataIndex === undefined && i.key !== 'actions' && i.type !==
@@ -336,27 +344,27 @@ class TableMain extends Component {
     })
 
     this.setState({
-      columns: x,
+      columns: x
     })
 
     if (!!apiRequest) {
       this.fetch2({
-        results: pagination.defaultPageSize,
+        results: pagination.defaultPageSize
       })
     }
 
   }
 
   renderDynamic () {
-    let {columns, selectedRowKeys, selectedRows} = this.state
-    const {extraProps, reloadButon, rowKey, checkBox, id, showSelector} = this.props
+    let { columns, selectedRowKeys, selectedRows } = this.state
+    const { extraProps, reloadButon, rowKey, checkBox, id, showSelector } = this.props
     const rowSelection = {
       selectedRowKeys,
       selectedRows,
-      onChange: this.onRowSelectChange,
+      onChange: this.onRowSelectChange
     }
 
-    const columnsName = map(columns, x => ({key: x.key, title: x.title}))
+    const columnsName = map(columns, x => ({ key: x.key, title: x.title }))
 
     let all = []
 
@@ -388,11 +396,10 @@ class TableMain extends Component {
       </div>
     }
 
-
     return (
       <React.Fragment>
 
-        <div style={{marginBottom: 10}}>
+        <div style={{ marginBottom: 10 }}>
           {reloadButon ?
            <Button
              shape="circle" onClick={() => {
@@ -401,12 +408,12 @@ class TableMain extends Component {
         </div>
 
         {(showSelector && id) &&
-        <div style={{textAlign: 'right', marginBottom: '13px'}}>
+        <div style={{ textAlign: 'right', marginBottom: '13px' }}>
           <Select
             mode="multiple"
             maxTagTextLength={10}
             maxTagCount={0}
-            style={{width: '10%'}}
+            style={{ width: '10%' }}
             placeholder="select columns"
             defaultValue={all}
             onChange={this.handleChange}
@@ -434,7 +441,7 @@ class TableMain extends Component {
             defaultPageSize: 10,
             pageSizeOptions: ['10', '25', '50', '100'],
             showSizeChanger: true,
-            ...this.props.pagination,
+            ...this.props.pagination
           }}
           onChange={this.handleTableChange}
           loading={tableLoading}
@@ -445,17 +452,17 @@ class TableMain extends Component {
   }
 
   renderStatic () {
-    const {columns, selectedRowKeys, selectedRows} = this.state
-    const {extraProps, dataSource, reloadButon, rowKey, checkBox, id} = this.props
+    const { columns, selectedRowKeys, selectedRows } = this.state
+    const { extraProps, dataSource, reloadButon, rowKey, checkBox, id } = this.props
     const rowSelection = {
       selectedRowKeys,
       selectedRows,
-      onChange: this.onRowSelectChange,
+      onChange: this.onRowSelectChange
     }
     return (
       <React.Fragment>
 
-        <div style={{marginBottom: 10}}>
+        <div style={{ marginBottom: 10 }}>
           {reloadButon ?
            <Button
              shape="circle" onClick={() => {
@@ -477,7 +484,7 @@ class TableMain extends Component {
             defaultPageSize: 10,
             pageSizeOptions: ['10', '25', '50', '100'],
             showSizeChanger: true,
-            ...this.props.pagination,
+            ...this.props.pagination
           }}
           onChange={() => {
 
@@ -491,7 +498,7 @@ class TableMain extends Component {
 
   render () {
 
-    const {apiRequest} = this.props
+    const { apiRequest } = this.props
 
     return (
       <React.Fragment>{!!apiRequest
