@@ -432,6 +432,7 @@ class getAllFormFields extends Component {
           inputProps = {
             ...inputProps,
             ...item.customProps,
+            id: item.key,
           }
 
           return (
